@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Box, Typography, Breadcrumbs, Link } from '@mui/material';
 import Image from 'next/image';
 import { FaGreaterThan } from 'react-icons/fa6';
@@ -11,17 +11,6 @@ interface BannerSectionProps {
 }
 
 const MainBreadcum: React.FC<BannerSectionProps> = ({ name, pageName }) => {
-  const [offsetY, setOffsetY] = useState(0);
-
-  const handleScroll = () => {
-    setOffsetY(window.scrollY);
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <Box
       sx={{
@@ -34,18 +23,7 @@ const MainBreadcum: React.FC<BannerSectionProps> = ({ name, pageName }) => {
         justifyContent: 'center',
       }}
     >
-      <Box
-        // sx={{
-        //   position: 'absolute',
-        //   top: 0,
-        //   left: 0,
-        //   right: 0,
-        //   bottom: 0,
-        //   width: '100%',
-        //   transform: `translateY(${offsetY * 0.1}px)`,
-        //   transition: 'transform 0.7s ease-out',
-        // }}
-      >
+      <Box>
         <Image
           src='/assets/banner.png'
           alt="Banner Background"
@@ -99,10 +77,18 @@ const MainBreadcum: React.FC<BannerSectionProps> = ({ name, pageName }) => {
           }}
           className="dmSans"
         >
-          <Link underline="hover" color="inherit" href="/" sx={{ color: '#868F91' }} className="dmSans">
+          <Link
+            underline="hover"
+            color="inherit"
+            href="/"
+            sx={{ color: '#868F91' }}
+            className="dmSans"
+          >
             Home
           </Link>
-          <Typography className="dmSans" color="white">{pageName}</Typography>
+          <Typography className="dmSans" color="white">
+            {pageName}
+          </Typography>
         </Breadcrumbs>
       </Box>
     </Box>

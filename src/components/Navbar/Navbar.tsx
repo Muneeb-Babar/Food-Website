@@ -15,22 +15,22 @@ export default function Navbar() {
           <Link href="/" className="hover:text-orange-500">
             Home
           </Link>
-          <Link href="/menu" className="hover:text-orange-500">
+          <Link href="/" className="hover:text-orange-500">
             Menu
           </Link>
-          <Link href="/blog" className="hover:text-orange-500">
+          <Link href="/" className="hover:text-orange-500">
             Blog
           </Link>
           <div className="relative group">
-            <Link href="/about" className="hover:text-orange-500">
+            <Link href="/About" className="hover:text-orange-500">
               About
             </Link>
             {/* Dropdown */}
             <div className="absolute hidden group-hover:block bg-gray-800 text-white py-2 rounded">
-              <Link href="/about-us" className="block px-4 py-1 hover:bg-gray-700">
+              <Link href="/About" className="block px-4 py-1 hover:bg-gray-700">
                 About Us
               </Link>
-              <Link href="/our-team" className="block px-4 py-1 hover:bg-gray-700">
+              <Link href="/ChefTeam" className="block px-4 py-1 hover:bg-gray-700">
                 Our Team
               </Link>
             </div>
@@ -91,13 +91,13 @@ export default function Navbar() {
           <Link href="/" className="block hover:text-orange-500">
             Home
           </Link>
-          <Link href="/menu" className="block hover:text-orange-500">
+          <Link href="/" className="block hover:text-orange-500">
             Menu
           </Link>
-          <Link href="/blog" className="block hover:text-orange-500">
+          <Link href="/" className="block hover:text-orange-500">
             Blog
           </Link>
-          <Link href="/about" className="block hover:text-orange-500">
+          <Link href="/About" className="block hover:text-orange-500">
             About
           </Link>
           <Link href="/Faq" className="block hover:text-orange-500">

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { FaFacebookF, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
 import { FaRegClock } from 'react-icons/fa';  // Import clock icon
 
@@ -56,24 +57,28 @@ const Footer = () => {
           <div className="mb-8 lg:mb-0 lg:w-1/4">
             <h3 className="text-lg font-bold mb-3">Useful Links</h3>
             <ul>
+              <Link href='/About'>
               <li className="my-2 hover:text-orange-400 cursor-pointer">
                 About
-              </li>
+              </li></Link>
               <li className="my-2 hover:text-orange-400 cursor-pointer">
                 News
               </li>
               <li className="my-2 hover:text-orange-400 cursor-pointer">
                 Partners
               </li>
+              <Link href='/ChefTeam'>
               <li className="my-2 hover:text-orange-400 cursor-pointer">
                 Team
-              </li>
+              </li></Link>
               <li className="my-2 hover:text-orange-400 cursor-pointer">
                 Menu
               </li>
+              <Link href='/SignUp'>
               <li className="my-2 hover:text-orange-400 cursor-pointer">
                 Contacts
-              </li>
+              </li></Link>
+              
             </ul>
           </div>
 
@@ -81,7 +86,9 @@ const Footer = () => {
           <div className="mb-8 lg:mb-0 lg:w-1/4">
             <h3 className="text-lg font-bold mb-3">Help?</h3>
             <ul>
-              <li className="my-2 hover:text-orange-400 cursor-pointer">FAQ</li>
+                <Link href='Faq'>
+                <li className="my-2 hover:text-orange-400 cursor-pointer">FAQ</li></Link>
+              
               <li className="my-2 hover:text-orange-400 cursor-pointer">
                 Terms & Conditions
               </li>

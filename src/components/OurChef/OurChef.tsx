@@ -61,7 +61,7 @@ export const OurChef = () => {
 
       {/* "See More" Button */}
       <div className="text-center mt-12">
-      <Link href="/chefs" passHref>
+      <Link href="/ChefTeam" >
   <button className="inline-block bg-transparent border-2 border-orange-400 text-orange-400 px-6 py-3 rounded-full font-semibold hover:bg-orange-400 hover:text-white transition duration-300">
     See More
   </button>

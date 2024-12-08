@@ -1,3 +1,4 @@
+// app/layout.tsx
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
@@ -22,17 +23,15 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Navbar/>
-        {children}
-        <Footer/>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <Navbar /> {/* The Navbar will be displayed on all pages */}
+        <main>{children}</main> {/* The page-specific content */}
+        <Footer /> {/* The Footer will be displayed on all pages */}
       </body>
     </html>
   );

@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { FC } from 'react';
 
 interface BlogPageProps {
-  params: { blogId: string }; 
+  params: { blogId: string }; // Change blogId to string
 }
 
 const posts = [
@@ -50,6 +50,7 @@ const posts = [
 
 const Page: FC<BlogPageProps> = ({ params }) => {
   
+  // Convert blogId to a number
   const blogId = parseInt(params.blogId);
 
   return (

@@ -26,7 +26,7 @@ const chefs: Chef[] = [
 const ChefTeam = () => {
   return (
     <>
-      <MainBreadcum name="Chef" pageName="Chef" />
+      <MainBreadcum name="Our Chef" pageName="Our Chef" />
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <main className="py-12">
           <div className="container mx-auto px-10">

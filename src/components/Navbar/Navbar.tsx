@@ -15,10 +15,10 @@ export default function Navbar() {
           <Link href="/" className="hover:text-orange-500">
             Home
           </Link>
-          <Link href="/" className="hover:text-orange-500">
+          <Link href="/Menu" className="hover:text-orange-500">
             Menu
           </Link>
-          <Link href="/" className="hover:text-orange-500">
+          <Link href="/Blog" className="hover:text-orange-500">
             Blog
           </Link>
           <div className="relative group">
@@ -35,8 +35,8 @@ export default function Navbar() {
               </Link>
             </div>
           </div>
-          <Link href="/Faq" className="hover:text-orange-500">
-            FAQ
+          <Link href="/Shop" className="hover:text-orange-500">
+          Shop
           </Link>
           <Link href="/SignUp" className="hover:text-orange-500">
             Contact
@@ -63,9 +63,12 @@ export default function Navbar() {
           </div>
 
           {/* Cart Icon */}
+
+          <Link href='Cart'>
           <button className="text-white-500">
             <FaShoppingCart size={20} />
-          </button>
+          </button></Link>
+          
 
           {/* User Icon */}
           <Link href='/SignUp'>
@@ -91,17 +94,17 @@ export default function Navbar() {
           <Link href="/" className="block hover:text-orange-500">
             Home
           </Link>
-          <Link href="/" className="block hover:text-orange-500">
+          <Link href="/Menu" className="block hover:text-orange-500">
             Menu
           </Link>
-          <Link href="/" className="block hover:text-orange-500">
+          <Link href="/Blog" className="block hover:text-orange-500">
             Blog
           </Link>
           <Link href="/About" className="block hover:text-orange-500">
             About
           </Link>
-          <Link href="/Faq" className="block hover:text-orange-500">
-            FAQ
+          <Link href="/Shop" className="block hover:text-orange-500">
+            Shop
           </Link>
           <Link href="/SignUp" className="block hover:text-orange-500">
             Contact
@@ -119,9 +122,11 @@ export default function Navbar() {
 
           {/* Icons (Mobile) */}
           <div className="flex justify-around mt-4 space-x-4">
+            <Link href='Cart'>
             <button className="text-white-500">
               <FaShoppingCart size={20} />
-            </button>
+            </button></Link>
+            
             <Link href='/SignUp'>
           <button className="text-white-500">
             <FaUserAlt size={20} />

@@ -1,0 +1,6 @@
+.low-opacity {
+    opacity: 0;
+    background-color: white;
+    pointer-events: none;
+    color: white
+  }

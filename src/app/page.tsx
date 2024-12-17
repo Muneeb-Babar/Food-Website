@@ -2,6 +2,7 @@ import ActiveBanner from "@/components/ActiveBanner/ActiveBanner";
 import { Details } from "@/components/Details/Details";
 import FoodCategories from "@/components/FoodCategories/FoodCategories";
 import HeroSection from "@/components/Hero/HeroSection";
+import Hidden from "@/components/Hidden/Hidden";
 import HomeAbout from "@/components/HomeAbout/HomeAbout";
 import HomeBlog from "@/components/HomeBlog/HomeBlog";
 import { HomeWhyUs } from "@/components/HomeWhyUs/HomeWhyUs";
@@ -15,6 +16,7 @@ import { ClientTestimonials } from "@/components/Testimonials/ClientTestimonials
 export default function Home() {
   return (
     <>
+            <Hidden />
     <HeroSection/>
     <HomeAbout/>
     <FoodCategories/>

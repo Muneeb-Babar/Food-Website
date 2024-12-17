@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Hidden from '../Hidden/Hidden';
 
 const HomeBlog = () => {
   return (
@@ -25,6 +26,7 @@ const HomeBlog = () => {
             />
           </div>
         </div>
+        <Hidden />
 
         {/* Card 2 */}
         <div className="bg-transparent  p-6">

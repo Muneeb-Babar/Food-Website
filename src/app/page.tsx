@@ -9,11 +9,15 @@ import { HomeWhyUs } from "@/components/HomeWhyUs/HomeWhyUs";
 import { MidBanner } from "@/components/MidBanner/MidBanner";
 import { OurChef } from "@/components/OurChef/OurChef";
 import { ClientTestimonials } from "@/components/Testimonials/ClientTestimonials";
+// import { client } from "@/sanity/lib/client";
 
 
 
 
-export default function Home() {
+
+export default async function Home() {
+
+
   return (
     <>
             <Hidden />

@@ -24,13 +24,12 @@ async function getData(): Promise<Product[]> {
   return fetchData;
 }
 
-// Define the correct types for the params and the props
-interface ShopItemProps {
+// Update to use the correct types for params (using Next.js' types)
+type ShopItemPageProps = {
   params: { id: string }; // The dynamic part of the route, `id` will be passed as a string
-}
+};
 
-// Use async function to fetch data inside the component
-const ShopItem = async ({ params }: ShopItemProps) => {
+const ShopItem = async ({ params }: ShopItemPageProps) => {
   const products: Product[] = await getData();
   const product = products.find((prod) => prod.id === parseInt(params.id)); // Find product by ID
 

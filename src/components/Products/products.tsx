@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 type Product = {
-  id: string;
+  id: number;
   name: string;
   price: number;
   imageUrl: string;

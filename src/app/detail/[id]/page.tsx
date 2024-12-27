@@ -3,16 +3,14 @@ import Image from "next/image";
 import SocialIcon from "@/components/SocialIcon/SocilIcon";
 import { client } from "@/sanity/lib/client";
 
-// Define the type for the product
 type Product = {
   name: string;
   price: number;
   imageUrl: string;
   originalPrice?: number; // Optional property
-  id: string; // Change the id type to string since it's passed from the params as a string
+  id: number; // Ensure each product has a unique ID
 };
 
-// Fetch data from Sanity
 async function getData(): Promise<Product[]> {
   const query = `*[_type == "products"]{
     id,
@@ -24,18 +22,17 @@ async function getData(): Promise<Product[]> {
   return fetchData;
 }
 
-// Update to use the correct types for params (using Next.js' types)
-type ShopItemPageProps = {
-  params: { id: string }; // The dynamic part of the route, `id` will be passed as a string
-};
-
-const ShopItem = async ({ params }: ShopItemPageProps) => {
-  const products: Product[] = await getData();
-  const product = products.find((prod) => prod.id === params.id); // Find product by ID
-
-  if (!product) {
-    return <div>Product not found</div>; // Fallback for invalid product IDs
+interface ShopItemProps {
+    params: { id: string };
   }
+  
+  const ShopItem: React.FC<ShopItemProps> = async ({ params }) => {
+    const products: Product[] = await getData();
+    const product = products.find((prod) => prod.id === parseInt(params.id));
+  
+    if (!product) {
+      return <div>Product not found</div>;
+    }
 
   return (
     <div>

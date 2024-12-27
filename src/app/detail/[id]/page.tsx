@@ -9,7 +9,7 @@ type Product = {
   price: number;
   imageUrl: string;
   originalPrice?: number; // Optional property
-  id: number; // Ensure each product has a unique ID
+  id: string; // Change the id type to string since it's passed from the params as a string
 };
 
 // Fetch data from Sanity
@@ -31,7 +31,7 @@ type ShopItemPageProps = {
 
 const ShopItem = async ({ params }: ShopItemPageProps) => {
   const products: Product[] = await getData();
-  const product = products.find((prod) => prod.id === parseInt(params.id)); // Find product by ID
+  const product = products.find((prod) => prod.id === params.id); // Find product by ID
 
   if (!product) {
     return <div>Product not found</div>; // Fallback for invalid product IDs

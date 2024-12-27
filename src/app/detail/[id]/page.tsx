@@ -1,34 +1,37 @@
 import React from "react";
+import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import SocialIcon from "@/components/SocialIcon/SocilIcon";
-import { client } from "@/sanity/lib/client";
 
-// Define Product type
 type Product = {
   name: string;
   price: number;
   imageUrl: string;
-  originalPrice?: number;
-  id: number;
+  originalPrice?: number; // Optional property
+  id: number; // Ensure each product has a unique ID
 };
 
-// Fetch product data
-async function getData(id: number): Promise<Product | null> {
-  const query = `*[_type == "products" && id == $id]{
+async function getData(): Promise<Product[]> {
+  const query = `*[_type == "products"]{
     id,
     name,
     price,
     "imageUrl": image.asset->url
   }`;
-  
-  const fetchData = await client.fetch<Product[]>(query, { id });
-  return fetchData.length > 0 ? fetchData[0] : null;
+  const fetchData = await client.fetch<Product[]>(query);
+  return fetchData;
 }
 
-// Page component for displaying product details
 const ShopItem = async ({ params }: { params: { id: string } }) => {
-  const productId = parseInt(params.id, 10);
-  const product = await getData(productId);
+  // Await the params object before using it
+  const { id } = await params;
+
+  // Convert the `id` from string to number
+  const productId = parseInt(id, 10);
+
+  // Fetch product data
+  const products: Product[] = await getData();
+  const product = products.find((prod) => prod.id === productId);
 
   if (!product) {
     return <div>Product not found</div>;
@@ -36,6 +39,7 @@ const ShopItem = async ({ params }: { params: { id: string } }) => {
 
   return (
     <div>
+      {/* Product page layout */}
       <div className="section1 w-[80%] m-auto py-20 flex justify-between max-xl:w-[95%] max-xl:flex-col items-center">
         {/* Product Images */}
         <div className="left grid grid-cols-4 grid-rows-4 gap-2 max-xl:w-full">
@@ -61,14 +65,11 @@ const ShopItem = async ({ params }: { params: { id: string } }) => {
 
         {/* Product Details */}
         <div className="w-[50%] h-[718px] flex flex-col justify-between max-xl:pt-10 max-xl:w-full">
-          {/* Stock status */}
           <div className="px-4 py-2">
             <span className="inline-block bg-primary_color text-white text-xs font-semibold px-2 py-1 rounded-full">
               In stock
             </span>
           </div>
-
-          {/* Product Title */}
           <div className="px-4 pb-15 text-black border-b border-gray-400">
             <h2 className="text-5xl font-bold max-sm:text-2xl">{product.name}</h2>
             <p className="text-gray-600 w-[608px] text-lg mt-5 pb-16 max-sm:w-full max-sm:text-sm">
@@ -76,8 +77,6 @@ const ShopItem = async ({ params }: { params: { id: string } }) => {
               diam pellentesque bibendum non dui volutpat fringilla bibendum.
             </p>
           </div>
-
-          {/* Price and Rating */}
           <div className="px-4 py-2">
             <div className="flex flex-col justify-between">
               <span className="text-3xl font-bold">${product.price}</span>
@@ -87,8 +86,6 @@ const ShopItem = async ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           </div>
-
-          {/* Add to cart */}
           <div className="px-4 py-4">
             <div className="flex items-center">
               <input
@@ -102,23 +99,18 @@ const ShopItem = async ({ params }: { params: { id: string } }) => {
               </button>
             </div>
           </div>
-
-          {/* Additional Info */}
           <div className="px-4 py-2">
             <div className="text-sm text-gray-600 flex flex-wrap flex-col gap-4">
               <span>Category: <strong>Pizza</strong></span>
               <span>Tag: <strong>Our Shop</strong></span>
             </div>
           </div>
-
-          {/* Social Share */}
           <div className="w-full items-start">
             <SocialIcon />
           </div>
         </div>
       </div>
 
-      {/* Product Description Section */}
       <div className="section2 w-[80%] m-auto py-20 max-xl:w-[95%]">
         <div className="border-b border-gray-300 flex space-x-4 text-sm">
           <button className="px-4 py-2 font-medium text-primary_color border-b-2 border-orange-500">

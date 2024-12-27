@@ -12,6 +12,7 @@ type Product = {
   id: number; // Ensure each product has a unique ID
 };
 
+// Fetch data from Sanity
 async function getData(): Promise<Product[]> {
   const query = `*[_type == "products"]{
     id,

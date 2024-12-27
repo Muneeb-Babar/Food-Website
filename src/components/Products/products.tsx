@@ -51,7 +51,7 @@ const Products = async () => {
       {/* Product Grid */}
       <div className="grid grid-cols-3 gap-4 max-md:grid-cols-2 max-sm:grid-cols-1">
         {products.map((product, index) => (
-          <Link key={index} href={`/detail/${product.id}`}>
+          <Link key={index} href={`/Shop/${product.id}`}>
             <div className="border border-gray-200 rounded cursor-pointer">
               <div className="relative">
                 <Image

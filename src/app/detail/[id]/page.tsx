@@ -23,11 +23,10 @@ async function getData(): Promise<Product[]> {
 }
 
 const ShopItem = async ({ params }: { params: { id: string } }) => {
-  // Await the params object before using it
-  const { id } = await params;
-
-  // Convert the `id` from string to number
-  const productId = parseInt(id, 10);
+  // Wait for the `params` object to resolve
+  const resolvedParams = await params; // Await the promise
+  const productId = parseInt(resolvedParams.id, 10); // Ensure integer conversion
+  console.log(productId);
 
   // Fetch product data
   const products: Product[] = await getData();

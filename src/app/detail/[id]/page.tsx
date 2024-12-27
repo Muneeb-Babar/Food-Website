@@ -22,17 +22,22 @@ async function getData(): Promise<Product[]> {
   return fetchData;
 }
 
+// Adjusted type for params to match Next.js expectations
 interface ShopItemProps {
-    params: { id: string };
+  params: {
+    id: string;
+  };
+}
+
+const ShopItem = async ({ params }: ShopItemProps) => {
+  const products: Product[] = await getData();
+  const product = products.find((prod) => prod.id === parseInt(params.id, 10));
+  
+  console.log(product)
+
+  if (!product) {
+    return <div>Product not found</div>;
   }
-  
-  const ShopItem: React.FC<ShopItemProps> = async ({ params }) => {
-    const products: Product[] = await getData();
-    const product = products.find((prod) => prod.id === parseInt(params.id));
-  
-    if (!product) {
-      return <div>Product not found</div>;
-    }
 
   return (
     <div>

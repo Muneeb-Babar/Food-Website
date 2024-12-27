@@ -3,37 +3,32 @@ import Image from "next/image";
 import SocialIcon from "@/components/SocialIcon/SocilIcon";
 import { client } from "@/sanity/lib/client";
 
+// Define Product type
 type Product = {
   name: string;
   price: number;
   imageUrl: string;
-  originalPrice?: number; // Optional property
-  id: number; // Ensure each product has a unique ID
+  originalPrice?: number;
+  id: number;
 };
 
-async function getData(): Promise<Product[]> {
-  const query = `*[_type == "products"]{
+// Fetch product data
+async function getData(id: number): Promise<Product | null> {
+  const query = `*[_type == "products" && id == $id]{
     id,
     name,
     price,
     "imageUrl": image.asset->url
   }`;
-  const fetchData = await client.fetch<Product[]>(query);
-  return fetchData;
-}
-
-// Adjusted type for params to match Next.js expectations
-interface ShopItemProps {
-  params: {
-    id: string;
-  };
-}
-
-const ShopItem = async ({ params }: ShopItemProps) => {
-  const products: Product[] = await getData();
-  const product = products.find((prod) => prod.id === parseInt(params.id, 10));
   
-  console.log(product)
+  const fetchData = await client.fetch<Product[]>(query, { id });
+  return fetchData.length > 0 ? fetchData[0] : null;
+}
+
+// Page component for displaying product details
+const ShopItem = async ({ params }: { params: { id: string } }) => {
+  const productId = parseInt(params.id, 10);
+  const product = await getData(productId);
 
   if (!product) {
     return <div>Product not found</div>;

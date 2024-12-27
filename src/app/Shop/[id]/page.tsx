@@ -7,8 +7,8 @@ type Product = {
   name: string;
   price: number;
   imageUrl: string;
-  originalPrice?: number; // Optional property
-  id: number; // Ensure each product has a unique ID
+  originalPrice?: number;
+  id: number;
 };
 
 async function getData(): Promise<Product[]> {
@@ -22,11 +22,13 @@ async function getData(): Promise<Product[]> {
   return fetchData;
 }
 
-const ShopItem = async ({ params }: { params: { id: string } }) => {
-  // Wait for the `params` object to resolve
-  const resolvedParams = await params; // Await the promise
-  const productId = parseInt(resolvedParams.id, 10); // Ensure integer conversion
-  console.log(productId);
+const ShopItem = async ({ params }: { params: Promise<{ id: string }> }) => {
+  // Await the params to resolve
+  const resolvedParams = await params;
+  const productId = parseInt(resolvedParams.id, 10);
+
+  console.log("Resolved Params:", resolvedParams);
+  console.log("Product ID:", productId);
 
   // Fetch product data
   const products: Product[] = await getData();
@@ -40,10 +42,9 @@ const ShopItem = async ({ params }: { params: { id: string } }) => {
     <div>
       {/* Product page layout */}
       <div className="section1 w-[80%] m-auto py-20 flex justify-between max-xl:w-[95%] max-xl:flex-col items-center">
-        {/* Product Images */}
         <div className="left grid grid-cols-4 grid-rows-4 gap-2 max-xl:w-full">
           {[1, 2, 3, 4].map((index) => (
-            <div key={index} className="">
+            <div key={index}>
               <Image
                 src={product.imageUrl || `/img/placeholder.svg`}
                 alt={product.name}
@@ -62,7 +63,6 @@ const ShopItem = async ({ params }: { params: { id: string } }) => {
           </div>
         </div>
 
-        {/* Product Details */}
         <div className="w-[50%] h-[718px] flex flex-col justify-between max-xl:pt-10 max-xl:w-full">
           <div className="px-4 py-2">
             <span className="inline-block bg-primary_color text-white text-xs font-semibold px-2 py-1 rounded-full">
@@ -100,8 +100,12 @@ const ShopItem = async ({ params }: { params: { id: string } }) => {
           </div>
           <div className="px-4 py-2">
             <div className="text-sm text-gray-600 flex flex-wrap flex-col gap-4">
-              <span>Category: <strong>Pizza</strong></span>
-              <span>Tag: <strong>Our Shop</strong></span>
+              <span>
+                Category: <strong>Pizza</strong>
+              </span>
+              <span>
+                Tag: <strong>Our Shop</strong>
+              </span>
             </div>
           </div>
           <div className="w-full items-start">

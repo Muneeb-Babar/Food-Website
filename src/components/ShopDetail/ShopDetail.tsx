@@ -1,4 +1,4 @@
-
+"use client"; // Ensure this file is treated as a client-side component
 
 import React from "react";
 import { client } from "@/sanity/lib/client";
@@ -24,7 +24,7 @@ async function getData(): Promise<Product[]> {
   return fetchData;
 }
 
-const ShopItem = async ({ params }: { params: Promise<{ id: string }> }) => {
+const ShopDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
   const resolvedParams = await params;
   const productId = parseInt(resolvedParams.id, 10);
 
@@ -142,4 +142,4 @@ const ShopItem = async ({ params }: { params: Promise<{ id: string }> }) => {
   );
 };
 
-export default ShopItem;
+export default ShopDetail;

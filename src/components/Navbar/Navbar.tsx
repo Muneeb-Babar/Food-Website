@@ -27,12 +27,13 @@ export default function Navbar() {
             </Link>
             {/* Dropdown */}
             <div className="absolute hidden group-hover:block bg-gray-800 text-white py-2 rounded">
-              <Link href="/About" className="block px-4 py-1 hover:bg-gray-700">
+              {/* <Link href="/About" className="block px-8 py-1 hover:bg-gray-700">
                 About Us
-              </Link>
-              <Link href="/ChefTeam" className="block px-4 py-1 hover:bg-gray-700">
-                Our Team
-              </Link>
+              </Link> */}
+              <Link href="/ChefTeam" className="block px-4 py-1 hover:bg-orange-400 w-full text-ellipsis whitespace-nowrap overflow-hidden">
+  Our Team
+</Link>
+
             </div>
           </div>
           <Link href="/Shop" className="hover:text-orange-500">

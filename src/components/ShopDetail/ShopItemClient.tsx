@@ -1,7 +1,6 @@
-"use client"; // Ensure this file is treated as a client-side component
+ 'use client';
 
 import React from "react";
-import { client } from "@/sanity/lib/client";
 import Image from "next/image";
 import SocialIcon from "@/components/SocialIcon/SocilIcon";
 
@@ -13,43 +12,16 @@ type Product = {
   id: number;
 };
 
-async function getData(): Promise<Product[]> {
-  const query = `*[_type == "products"]{
-    id,
-    name,
-    price,
-    "imageUrl": image.asset->url
-  }`;
-  const fetchData = await client.fetch<Product[]>(query);
-  return fetchData;
-}
-
-const ShopDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
-  const resolvedParams = await params;
-  const productId = parseInt(resolvedParams.id, 10);
-
-  const products: Product[] = await getData();
-  const product = products.find((prod) => prod.id === productId);
-
-  if (!product) {
-    return <div>Product not found</div>;
-  }
-
+const ShopItemClient = ({ product }: { product: Product }) => {
   const addToCart = (product: Product) => {
-    // Get existing cart items from localStorage
     const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
-
-    // Add the new product to the cart
     const updatedCart = [...cartItems, product];
-
-    // Save updated cart back to localStorage
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     alert("Item added to cart!");
   };
 
   return (
     <div>
-      
       {/* Product page layout */}
       <div className="section1 w-[80%] m-auto py-20 flex justify-between max-xl:w-[95%] max-xl:flex-col items-center">
         <div className="left grid grid-cols-4 grid-rows-4 gap-2 max-xl:w-full">
@@ -120,26 +92,8 @@ const ShopDetail = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
         </div>
       </div>
-
-      <div className="section2 w-[80%] m-auto py-20 max-xl:w-[95%]">
-        <div className="border-b border-gray-300 flex space-x-4 text-sm">
-          <button className="px-4 py-2 font-medium text-primary_color border-b-2 border-orange-500">
-            Description
-          </button>
-          <button className="px-4 py-2 font-medium text-gray-600 hover:text-orange-500">
-            Reviews (24)
-          </button>
-        </div>
-        <div className="mt-4 text-gray-700">
-          <p>
-            Nam tristique porta ligula, vel viverra sem eleifend nec. Nulla sed
-            purus augue, eu euismod tellus. Nam mattis eros nec mi sagittis
-            sagittis.
-          </p>
-        </div>
-      </div>
     </div>
   );
 };
 
-export default ShopDetail;
+export default ShopItemClient;

@@ -1,3 +1,5 @@
+"use client"; // Ensure this file is treated as a client-side component
+
 import React from "react";
 import { client } from "@/sanity/lib/client";
 import Image from "next/image";
@@ -23,14 +25,9 @@ async function getData(): Promise<Product[]> {
 }
 
 const ShopItem = async ({ params }: { params: Promise<{ id: string }> }) => {
-  // Await the params to resolve
   const resolvedParams = await params;
   const productId = parseInt(resolvedParams.id, 10);
 
-  console.log("Resolved Params:", resolvedParams);
-  console.log("Product ID:", productId);
-
-  // Fetch product data
   const products: Product[] = await getData();
   const product = products.find((prod) => prod.id === productId);
 
@@ -38,8 +35,21 @@ const ShopItem = async ({ params }: { params: Promise<{ id: string }> }) => {
     return <div>Product not found</div>;
   }
 
+  const addToCart = (product: Product) => {
+    // Get existing cart items from localStorage
+    const cartItems = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    // Add the new product to the cart
+    const updatedCart = [...cartItems, product];
+
+    // Save updated cart back to localStorage
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    alert("Item added to cart!");
+  };
+
   return (
     <div>
+      
       {/* Product page layout */}
       <div className="section1 w-[80%] m-auto py-20 flex justify-between max-xl:w-[95%] max-xl:flex-col items-center">
         <div className="left grid grid-cols-4 grid-rows-4 gap-2 max-xl:w-full">
@@ -87,13 +97,10 @@ const ShopItem = async ({ params }: { params: Promise<{ id: string }> }) => {
           </div>
           <div className="px-4 py-4">
             <div className="flex items-center">
-              <input
-                type="number"
-                min="1"
-                defaultValue="1"
-                className="w-12 h-[50px] text-center border border-gray-300 rounded-md"
-              />
-              <button className="ml-4 px-4 py-2 h-[50px] bg-orange-400 text-white text-sm font-medium rounded-md hover:bg-orange-600">
+              <button
+                className="ml-4 px-4 py-2 h-[50px] bg-orange-400 text-white text-sm font-medium rounded-md hover:bg-orange-600"
+                onClick={() => addToCart(product)}
+              >
                 Add to cart
               </button>
             </div>

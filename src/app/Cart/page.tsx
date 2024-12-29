@@ -29,7 +29,12 @@ const Cart: React.FC = () => {
     useEffect(() => {
         try {
             const storedCart = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[];
-            setCartItems(storedCart);
+            // Ensure quantity is always set to 1 if missing
+            const normalizedCart = storedCart.map(item => ({
+                ...item,
+                quantity: item.quantity || 1,
+            }));
+            setCartItems(normalizedCart);
         } catch (error) {
             console.error('Error parsing localStorage data:', error);
         }
@@ -57,11 +62,14 @@ const Cart: React.FC = () => {
     };
 
     // Calculate subtotal for a single item
-    const calculateSubtotal = (price: number, quantity: number) => price * quantity;
+    const calculateSubtotal = (price: number, quantity: number) => {
+        // Ensure price and quantity are valid numbers
+        return (price * Math.max(1, quantity)).toFixed(2);
+    };
 
     // Calculate the total amount
     const calculateTotal = () =>
-        cartItems.reduce((total, item) => total + calculateSubtotal(item.price, item.quantity), 0);
+        cartItems.reduce((total, item) => total + parseFloat(calculateSubtotal(item.price, item.quantity)), 0);
 
     return (
         <div>
@@ -108,10 +116,9 @@ const Cart: React.FC = () => {
                                                     handleQuantityChange(index, parseInt(e.target.value, 10) || 1)
                                                 }
                                             />
-
                                         </TableCell>
                                         <TableCell className="pl-4">
-                                            ${calculateSubtotal(item.price, item.quantity).toFixed(2)}
+                                            ${calculateSubtotal(item.price, item.quantity)}
                                         </TableCell>
                                         <TableCell className="pl-4">
                                             <button
@@ -157,11 +164,11 @@ const Cart: React.FC = () => {
                                         </div>
                                         <div className="flex justify-between text-sm">
                                             <span>Shipping Charge</span>
-                                            <span>$0.00</span>
+                                            <span>$20.00</span>
                                         </div>
                                         <div className="flex justify-between text-lg font-semibold">
                                             <span>Total Amount</span>
-                                            <span>${calculateTotal().toFixed(2)}</span>
+                                            <span>${(calculateTotal() + 20).toFixed(2)}</span>
                                         </div>
                                     </div>
                                     <button className="w-full mt-4 px-4 py-2 bg-orange-400 text-white rounded hover:bg-orange-500">

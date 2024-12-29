@@ -32,7 +32,7 @@ export const Details = () => {
     .slice(0, category === "Breakfast" ? 6 : undefined); // Show only 2 items if Breakfast
 
   return (
-    <div className="container bg-black mx-auto py-12 px-6">
+    <div className=" bg-black mx-auto py-12 px-6">
       {/* Header */}
       <div className="text-center mb-12">
         <p className="text-orange-400 text-2xl italic">Choose & Pick</p>

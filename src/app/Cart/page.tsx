@@ -59,6 +59,7 @@ const Cart: React.FC = () => {
         const updatedItems = cartItems.filter((_, i) => i !== index);
         setCartItems(updatedItems);
         updateLocalStorage(updatedItems);
+        window.location.reload();
     };
 
     // Calculate subtotal for a single item

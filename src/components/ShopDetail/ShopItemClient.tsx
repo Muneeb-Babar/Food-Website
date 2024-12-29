@@ -18,6 +18,7 @@ const ShopItemClient = ({ product }: { product: Product }) => {
     const updatedCart = [...cartItems, product];
     localStorage.setItem("cart", JSON.stringify(updatedCart));
     alert("Item added to cart!");
+    window.location.reload();
   };
 
   return (

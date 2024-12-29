@@ -19,40 +19,47 @@ interface CartItem {
     name: string;
     price: number;
     imageUrl: string;
-    quantity?: number; // Optional, defaults to 1 if not provided
+    quantity: number; // Defaults to 1, but always required here for calculations
 }
 
 const Cart: React.FC = () => {
     const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
+    // Fetch cart items from localStorage on component mount
     useEffect(() => {
-        // Fetch data from local storage
         try {
             const storedCart = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[];
-            console.log('Stored cart items:', storedCart); // Debugging line
             setCartItems(storedCart);
         } catch (error) {
-            console.error('Error parsing local storage data:', error);
-            setCartItems([]);
+            console.error('Error parsing localStorage data:', error);
         }
     }, []);
 
-    const handleQuantityChange = (index: number, quantity: number) => {
-        const updatedItems = cartItems.map((item, i) =>
-            i === index ? { ...item, quantity: quantity || 1 } : item
-        );
-        setCartItems(updatedItems);
-        localStorage.setItem('cartItems', JSON.stringify(updatedItems));
+    // Update localStorage with new cart data
+    const updateLocalStorage = (updatedCart: CartItem[]) => {
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
     };
 
+    // Handle quantity changes
+    const handleQuantityChange = (index: number, quantity: number) => {
+        const updatedItems = cartItems.map((item, i) =>
+            i === index ? { ...item, quantity: Math.max(1, quantity) } : item
+        );
+        setCartItems(updatedItems);
+        updateLocalStorage(updatedItems);
+    };
+
+    // Remove an item from the cart
     const handleRemoveItem = (index: number) => {
         const updatedItems = cartItems.filter((_, i) => i !== index);
         setCartItems(updatedItems);
-        localStorage.setItem('cartItems', JSON.stringify(updatedItems));
+        updateLocalStorage(updatedItems);
     };
 
-    const calculateSubtotal = (price: number, quantity: number = 1) => price * (quantity || 1);
+    // Calculate subtotal for a single item
+    const calculateSubtotal = (price: number, quantity: number) => price * quantity;
 
+    // Calculate the total amount
     const calculateTotal = () =>
         cartItems.reduce((total, item) => total + calculateSubtotal(item.price, item.quantity), 0);
 
@@ -62,6 +69,7 @@ const Cart: React.FC = () => {
             <div className="w-[80%] m-auto max-lg:w-[95%]">
                 {cartItems.length > 0 ? (
                     <>
+                        {/* Cart Table */}
                         <Table className="mt-20 mb-10 max-sm:text-xs">
                             <TableHeader className="h-[72px] rounded-sm box_shadow">
                                 <TableRow className="border-none outline-none">
@@ -74,7 +82,10 @@ const Cart: React.FC = () => {
                             </TableHeader>
                             <TableBody>
                                 {cartItems.map((item, index) => (
-                                    <TableRow key={item.id} className="h-[72px] rounded-sm box_shadow font-medium">
+                                    <TableRow
+                                        key={item.id}
+                                        className="h-[72px] rounded-sm box_shadow font-medium"
+                                    >
                                         <TableCell className="pl-4 max-sm:pl-0">
                                             <div className="flex items-center">
                                                 <Image
@@ -89,7 +100,7 @@ const Cart: React.FC = () => {
                                         <TableCell className="pl-4">${item.price.toFixed(2)}</TableCell>
                                         <TableCell className="pl-4">
                                             <Input
-                                                className="w-[74px] h-[44px] max-sm:w-[40px] max-sm:h-[30px] max-sm:text-xs"
+                                                className="text-black-500 w-[74px] h-[44px] max-sm:w-[40px] max-sm:h-[30px] max-sm:text-xs"
                                                 value={item.quantity || 1}
                                                 type="number"
                                                 min={1}
@@ -97,34 +108,40 @@ const Cart: React.FC = () => {
                                                     handleQuantityChange(index, parseInt(e.target.value, 10) || 1)
                                                 }
                                             />
+
                                         </TableCell>
                                         <TableCell className="pl-4">
                                             ${calculateSubtotal(item.price, item.quantity).toFixed(2)}
                                         </TableCell>
                                         <TableCell className="pl-4">
-                                            <button onClick={() => handleRemoveItem(index)}>X</button>
+                                            <button
+                                                className="text-red-500 hover:underline"
+                                                onClick={() => handleRemoveItem(index)}
+                                            >
+                                                X
+                                            </button>
                                         </TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
                         </Table>
 
+                        {/* Cart Summary Section */}
                         <div className="p-6 rounded-lg py-20">
                             <div className="grid grid-cols-2 gap-10 max-md:grid-cols-1">
                                 {/* Coupon Code Section */}
                                 <div>
                                     <h3 className="font-semibold text-lg mb-2">Coupon Code</h3>
                                     <p className="text-sm text-gray-500 mb-4">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque
-                                        diam pellentesque bibendum non.
+                                        Enter a valid coupon code to get discounts.
                                     </p>
                                     <div className="flex items-center space-x-2">
                                         <input
                                             type="text"
-                                            placeholder="Enter Here code"
+                                            placeholder="Enter code"
                                             className="flex-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-orange-300"
                                         />
-                                        <button className="px-4 py-2 bg-orange-400 text-white rounded hover:bg-primary_color">
+                                        <button className="px-4 py-2 bg-orange-400 text-white rounded hover:bg-orange-500">
                                             Apply
                                         </button>
                                     </div>
@@ -136,18 +153,18 @@ const Cart: React.FC = () => {
                                     <div className="p-4 rounded-md space-y-2 border border-gray-300">
                                         <div className="flex justify-between text-lg font-semibold">
                                             <span>Cart Subtotal</span>
-                                            <span className="font-medium">${calculateTotal().toFixed(2)}</span>
+                                            <span>${calculateTotal().toFixed(2)}</span>
                                         </div>
                                         <div className="flex justify-between text-sm">
                                             <span>Shipping Charge</span>
-                                            <span className="font-medium">$0.00</span>
+                                            <span>$0.00</span>
                                         </div>
                                         <div className="flex justify-between text-lg font-semibold">
                                             <span>Total Amount</span>
                                             <span>${calculateTotal().toFixed(2)}</span>
                                         </div>
                                     </div>
-                                    <button className="w-full mt-4 px-4 py-2 bg-orange-400 text-white rounded hover:bg-primary_color">
+                                    <button className="w-full mt-4 px-4 py-2 bg-orange-400 text-white rounded hover:bg-orange-500">
                                         <Link href="/Checkout">Proceed to Checkout</Link>
                                     </button>
                                 </div>
@@ -155,6 +172,7 @@ const Cart: React.FC = () => {
                         </div>
                     </>
                 ) : (
+                    // Empty Cart Message
                     <div className="mt-20 text-center">
                         <h2 className="text-xl font-semibold">Your cart is empty!</h2>
                         <Link href="/" className="text-orange-500 hover:underline">
